@@ -21,7 +21,7 @@
     "button-reject-incoming"
   );
   const phoneNumberInput = document.getElementById("phone-number");
-  const amdInput = document.getElementById("amd-dropdown");
+  const amdMode = document.getElementById("amd-mode");
   const incomingPhoneNumberEl = document.getElementById("incoming-number");
   const startupButton = document.getElementById("startup-button");
 
@@ -105,7 +105,8 @@
     var params = {
       // get the phone number to call from the DOM
       To: phoneNumberInput.value,
-      // set whether AMD is chosen
+      machineDetection: amdMode.value,
+      url: 'https://70bf-157-131-168-24.ngrok.io/amd'
     };
 
     if (device) {
@@ -113,6 +114,9 @@
 
       // Twilio.Device.connect() returns a Call object
       const call = await device.connect({ params });
+      call.on("ringing", function () {
+        log("Ringing!");
+      });
 
       // add listeners to the Call
       // "accepted" means the call has finished connecting and the state is now "open"
