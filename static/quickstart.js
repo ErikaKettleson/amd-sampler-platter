@@ -21,6 +21,7 @@
     "button-reject-incoming"
   );
   const phoneNumberInput = document.getElementById("phone-number");
+  const amdInput = document.getElementById("amd-dropdown");
   const incomingPhoneNumberEl = document.getElementById("incoming-number");
   const startupButton = document.getElementById("startup-button");
 
@@ -104,6 +105,7 @@
     var params = {
       // get the phone number to call from the DOM
       To: phoneNumberInput.value,
+      // set whether AMD is chosen
     };
 
     if (device) {
