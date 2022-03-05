@@ -117,6 +117,7 @@
       call.on("ringing", function () {
         log("Ringing!");
       });
+      console.log("call ringing-> ", call)
 
       // add listeners to the Call
       // "accepted" means the call has finished connecting and the state is now "open"
@@ -127,11 +128,22 @@
       outgoingCallHangupButton.onclick = () => {
         log("Hanging up ...");
         call.disconnect();
+        console.log("call disconnect-> ", call)
       };
 
     } else {
       log("Unable to make call.");
     }
+  }
+
+  async function fetchAMDResult () {
+    console.log('in fetch function!')
+    let response = await fetch('../get_answered_by');
+    let data = await response.json();
+
+    console.log('amd result data: ', data)
+
+    return data;
   }
 
   function updateUIAcceptedOutgoingCall(call) {
@@ -147,6 +159,10 @@
     callButton.disabled = false;
     outgoingCallHangupButton.classList.add("hide");
     volumeIndicators.classList.add("hide");
+    // display AMD result in UI
+    amd_result = fetchAMDResult('../get_answered_by')
+
+    setAMDResult(amd_result)
   }
 
   // HANDLE INCOMING CALL
@@ -223,6 +239,12 @@
   function setClientNameUI(clientName) {
     var div = document.getElementById("client-name");
     div.innerHTML = `Your client name: <strong>${clientName}</strong>`;
+  }
+
+  function setAMDResult(answered_by) {
+    console.log("in setAMDresult: ", answered_by)
+    var div = document.getElementById("amd-answered-by");
+    div.innerHTML = `AMD Result: <strong>${answered_by}</strong>`;
   }
 
   function resetIncomingCallUI() {
