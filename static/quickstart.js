@@ -138,12 +138,23 @@
 
   async function fetchAMDResult () {
     console.log('in fetch function!')
-    let response = await fetch('../get_answered_by');
-    let data = await response.json();
 
-    console.log('amd result data: ', data)
+    // return fetch("../get_answered_by")
+    //   .then(response => response.text())
+    //   .then(data => setAMDResult(data))
+    let resp_data = await fetch("../get_answered_by")
+    let resp_text = await resp_data.text()
+    setAMDResult(resp_text)
 
-    return data;
+    return resp_text
+
+
+    // let response = await fetch('../get_answered_by');
+    // let data = await response.json();
+
+    // console.log('amd result data: ', data)
+
+    // return data;
   }
 
   function updateUIAcceptedOutgoingCall(call) {
@@ -154,15 +165,16 @@
     bindVolumeIndicators(call);
   }
 
-  function updateUIDisconnectedOutgoingCall() {
+  async function updateUIDisconnectedOutgoingCall() {
     log("Call disconnected.");
     callButton.disabled = false;
     outgoingCallHangupButton.classList.add("hide");
     volumeIndicators.classList.add("hide");
     // display AMD result in UI
-    amd_result = fetchAMDResult('../get_answered_by')
+    let amd_result = await fetchAMDResult('../get_answered_by')
 
-    setAMDResult(amd_result)
+    // debugger;
+    // setAMDResult(amd_result)
   }
 
   // HANDLE INCOMING CALL

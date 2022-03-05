@@ -17,6 +17,7 @@ load_dotenv()
 
 app = Flask(__name__,template_folder='templates')
 SESSION_TYPE = 'filesystem'
+PERMANENT_SESSION_LIFETIME = 30
 app.config.from_object(__name__)
 Session(app)
 
@@ -76,9 +77,12 @@ def amd():
     answered_by = request.values.get('AnsweredBy', '')
         
     # need to store answered_by in session storage or cache, then use a js function to call backend to display answered by
-    session['answered_by'] = answered_by
-    import ipdb
-    ipdb.set_trace()
+    # session['answered_by'] = answered_by
+    with open("answered_by.txt", "w") as outfile:
+        outfile.writelines([answered_by, '\n'])
+
+    # import ipdb
+    # ipdb.set_trace()
 
     resp = VoiceResponse()
     print("request.values: ", request.values)
@@ -91,25 +95,24 @@ def amd():
         resp.say('Standard AMD call went to voicemail. Goodbye...')
 
     # would be nice to auto hang up conference 
-    ipdb.set_trace()
-
-    return Response(str(resp), mimetype="text/xml")
-
-@app.route('/set/')
-def set():
-    session['key'] = 'value'
-    return 'ok'
-
-@app.route('/get/')
-def get():
-    return session.get('key', 'not set')
+    return str(resp)
 
 @app.route("/get_answered_by", methods=["GET"])
 def get_answered_by():
-    import ipdb
-    ipdb.set_trace()
-    answered_by = session.get('answered_by', 'no AMD result')
+    # import ipdb
+    # ipdb.set_trace()
+    
+    # print(session.get('key', 'not set'))
+    # answered_by = session.get('answered_by', 'no AMD result')
+    
+    with open("answered_by.txt", "r") as infile:
+        answered_by = infile.readlines()[0].rstrip()
+    
     print("in get answered by!!: ", answered_by)
+
+
+    file = open("answered_by.txt","w")
+    file.close()    
 
     # currently only [object Promise] is rendered in UI :(
     return str(answered_by)
