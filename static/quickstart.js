@@ -106,7 +106,7 @@
       // get the phone number to call from the DOM
       To: phoneNumberInput.value,
       machineDetection: amdMode.value,
-      url: 'https://70bf-157-131-168-24.ngrok.io/amd'
+      url: 'https://70bf-157-131-168-24.ngrok.io/amd',
     };
 
     if (device) {
@@ -118,7 +118,9 @@
         log("Ringing!");
       });
       console.log("call ringing-> ", call)
-
+      // this is the inbound client leg call sid
+      console.log('call params: -> ', call.parameters)
+    
       // add listeners to the Call
       // "accepted" means the call has finished connecting and the state is now "open"
       call.on("accept", updateUIAcceptedOutgoingCall);
@@ -139,30 +141,35 @@
   async function fetchAMDResult () {
     console.log('in fetch function!')
 
-    // return fetch("../get_answered_by")
-    //   .then(response => response.text())
-    //   .then(data => setAMDResult(data))
+
     let resp_data = await fetch("../get_answered_by")
     let resp_text = await resp_data.text()
     setAMDResult(resp_text)
 
     return resp_text
-
-
-    // let response = await fetch('../get_answered_by');
-    // let data = await response.json();
-
-    // console.log('amd result data: ', data)
-
-    // return data;
   }
 
+  // async function bridgeConference () {
+  //   console.log('in bridge conference', call_sid)
+
+  //   let bridge = await fetch("../bridge_conference")
+
+  //   return call_sid
+  // }
+
   function updateUIAcceptedOutgoingCall(call) {
-    log("Call in progress ...");
+    log("Call in progress ...", call);
+    call_sid = call.parameters.CallSid
     callButton.disabled = true;
     outgoingCallHangupButton.classList.remove("hide");
     volumeIndicators.classList.remove("hide");
     bindVolumeIndicators(call);
+
+    // this is hapoening Call is not in-progress. Cannot redirect.
+    if (call_sid) {
+      // this is the client call sid, and i need the pstn leg
+      console.log('yes there is a call sid!')
+    }
   }
 
   async function updateUIDisconnectedOutgoingCall() {
@@ -172,9 +179,6 @@
     volumeIndicators.classList.add("hide");
     // display AMD result in UI
     let amd_result = await fetchAMDResult('../get_answered_by')
-
-    // debugger;
-    // setAMDResult(amd_result)
   }
 
   // HANDLE INCOMING CALL

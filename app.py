@@ -76,23 +76,31 @@ def amd():
     call_status = request.values.get('CallStatus', '')
     answered_by = request.values.get('AnsweredBy', '')
         
-    # need to store answered_by in session storage or cache, then use a js function to call backend to display answered by
-    # session['answered_by'] = answered_by
     with open("answered_by.txt", "w") as outfile:
         outfile.writelines([answered_by, '\n'])
+        print('writing answered by to txt file: ', answered_by)
 
-    # import ipdb
-    # ipdb.set_trace()
 
     resp = VoiceResponse()
     print("request.values: ", request.values)
+    with open("pstn_leg_sid.txt", "r") as infile:
+        call_sid = infile.readlines()[0].rstrip()
+
+        print("in bridge_conference - call sid: ", call_sid)
+
+        file = open("pstn_leg_sid.txt","w")
+        file.close() 
 
     if answered_by == "human":
-        # this announces to the pstn number - also announce to conference? connect to conference
-        resp.say('Standard AMD call answered by a human. Goodbye...')
+        # connect pstn leg to conference        
+        call = client.calls(call_sid).update(twiml='<Response>"Standard AMD call answered by a human. Bridging now!"<Say></Say><Dial><Conference>AMDConference</Conference></Dial></Response>')
+
 
     else:
         resp.say('Standard AMD call went to voicemail. Goodbye...')
+        # hangup conference here as well
+        # hangupIncomingCall(call_sid)
+    
 
     # would be nice to auto hang up conference 
     return str(resp)
@@ -117,6 +125,27 @@ def get_answered_by():
     # currently only [object Promise] is rendered in UI :(
     return str(answered_by)
 
+@app.route("/bridge_conference", methods=["GET", "POST"])
+def bridge_conference():
+    # add call leg to conference so we can hear it
+    # resp = VoiceResponse()
+    # dial = Dial()
+    # dial.conference('AMDConference')
+    # resp.append(dial)
+    # import ipdb; ipdb.set_trace()
+
+    with open("pstn_leg_sid.txt", "r") as infile:
+        call_sid = infile.readlines()[0].rstrip()
+    
+    print("in bridge_conference - call sid: ", call_sid)
+
+    file = open("pstn_leg_sid.txt","w")
+    file.close() 
+
+    call = client.calls(call_sid).update(twiml='<Response><Dial><Conference>AMDConference</Conference></Dial></Response>')
+
+    return call_sid
+
 
 @app.route("/voice", methods=["POST"])
 def voice():
@@ -139,7 +168,7 @@ def voice():
             machine_detection = request.form["machineDetection"]
             # park inbound leg in a conference
             dial.conference(
-                'My test conference',
+                'AMDConference',
                 end_conference_on_exit=True
             )
             # make outbound API with AMD 
@@ -150,6 +179,14 @@ def voice():
                     url=url,
                     machine_detection=machine_detection
                 )
+                
+                # import ipdb;ipdb.set_trace()
+
+                call_sid = call.sid
+                with open("pstn_leg_sid.txt", "w") as outfile:
+                    outfile.writelines([call_sid, '\n'])
+                    print('wrote to pstn_leg_sid: ', call_sid)
+
             except TwilioRestException as ex:
                 abort(500, ex.msg)
 
