@@ -106,7 +106,7 @@
       // get the phone number to call from the DOM
       To: phoneNumberInput.value,
       machineDetection: amdMode.value,
-      url: 'https://70bf-157-131-168-24.ngrok.io/amd',
+      url: 'https://cc22-157-131-168-24.ngrok.io/amd',
     };
 
     if (device) {
@@ -140,10 +140,8 @@
 
   async function fetchAMDResult () {
     console.log('in fetch function!')
-
-
     let resp_data = await fetch("../get_answered_by")
-    let resp_text = await resp_data.text()
+    let resp_text = await resp_data.json()
     setAMDResult(resp_text)
 
     return resp_text
@@ -151,9 +149,7 @@
 
   // async function bridgeConference () {
   //   console.log('in bridge conference', call_sid)
-
   //   let bridge = await fetch("../bridge_conference")
-
   //   return call_sid
   // }
 
@@ -257,10 +253,15 @@
     div.innerHTML = `Your client name: <strong>${clientName}</strong>`;
   }
 
-  function setAMDResult(answered_by) {
+  function setAMDResult(amd_params) {
+    debugger;
+    answered_by = amd_params[0]
+    machine_detection_duration = amd_params[1]
     console.log("in setAMDresult: ", answered_by)
     var div = document.getElementById("amd-answered-by");
     div.innerHTML = `AMD Result: <strong>${answered_by}</strong>`;
+    var div2 = document.getElementById("amd-machine_detection_duration");
+    div2.innerHTML = `Detection Duration: <strong>${machine_detection_duration}</strong>`;
   }
 
   function resetIncomingCallUI() {

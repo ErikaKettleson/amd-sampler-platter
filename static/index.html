@@ -45,6 +45,9 @@
             {% if answered_by %}
             <h3 id="amd-result">{{answered_by}}</h3>
             {% endif %}
+            {% if machine_detection_duration %}
+            <h3 id="amd-machine_detection_duration">{{machine_detection_duration}}</h3>
+            {% endif %}
           </div>
 
           <button id="button-hangup-outgoing" class="hide">Hang Up</button>

@@ -75,10 +75,13 @@ def amd():
     inbound_caller_id = request.values.get('InboundCallerId', '')
     call_status = request.values.get('CallStatus', '')
     answered_by = request.values.get('AnsweredBy', '')
+    machine_detection_duration = request.values.get('MachineDetectionDuration', '')
         
     with open("answered_by.txt", "w") as outfile:
         outfile.writelines([answered_by, '\n'])
-        print('writing answered by to txt file: ', answered_by)
+        outfile.writelines([machine_detection_duration, '\n'])
+
+        print('writing answered by to txt file: ', answered_by, machine_detection_duration)
 
 
     resp = VoiceResponse()
@@ -107,23 +110,16 @@ def amd():
 
 @app.route("/get_answered_by", methods=["GET"])
 def get_answered_by():
-    # import ipdb
-    # ipdb.set_trace()
-    
-    # print(session.get('key', 'not set'))
-    # answered_by = session.get('answered_by', 'no AMD result')
     
     with open("answered_by.txt", "r") as infile:
-        answered_by = infile.readlines()[0].rstrip()
-    
-    print("in get answered by!!: ", answered_by)
+        answered_by = infile.readline().rstrip()
+        machine_detection_duration = infile.readline().rstrip()
+        print("in get answered by!!: ", answered_by, machine_detection_duration)    
 
+    open("answered_by.txt", "w").close()
 
-    file = open("answered_by.txt","w")
-    file.close()    
+    return jsonify([answered_by, machine_detection_duration])
 
-    # currently only [object Promise] is rendered in UI :(
-    return str(answered_by)
 
 @app.route("/bridge_conference", methods=["GET", "POST"])
 def bridge_conference():
