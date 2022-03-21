@@ -98,9 +98,8 @@ def amd():
         # connect pstn leg to conference        
         call = client.calls(call_sid).update(twiml='<Response>"Standard AMD call answered by a human. Bridging now!"<Say></Say><Dial><Conference>AMDConference</Conference></Dial></Response>')
 
-
     else:
-        resp.say('Standard AMD call went to voicemail. Goodbye...')
+        resp.say('Standard AMD detected this is not a human. Goodbye...')
         # hangup conference here as well
         # hangupIncomingCall(call_sid)
     

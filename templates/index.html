@@ -26,11 +26,20 @@
         <h2 class="instructions">Make a Call</h2>
         <div id="call-controls" class="hide">
           <form>
-            <label for="phone-number"
-              >Enter a phone number or client name</label
-            >
-            <input id="phone-number" type="text" placeholder="+15552221234" />
-            
+
+            <select name="phone-options" id="phone-options">
+              <option value="+19706606336">Very short voicemail</option>
+              <option value="+18543006534">Normal voicemail</option>
+              <option value="+16502036694">Human saying hello</option>
+              <option value="custom">Call your own number</option>
+            </select><br>
+
+            <div id="phone-number-block" hidden>
+              <label for="phone-number"
+                >Enter a phone number or client name</label
+              >
+              <input id="phone-number" type="text" placeholder="+15552221234" />
+            </div>
             <label for="amd">AMD Mode:</label>
 
             <select name="amd" id="amd-mode">

@@ -5,6 +5,8 @@
   const inputVolumeBar = document.getElementById("input-volume");
   const volumeIndicators = document.getElementById("volume-indicators");
   const callButton = document.getElementById("button-call");
+  const phoneOptions = document.getElementById("phone-options");
+  const phoneNumberBlock = document.getElementById("phone-number-block");
   const outgoingCallHangupButton = document.getElementById("button-hangup-outgoing");
   const callControlsDiv = document.getElementById("call-controls");
   const audioSelectionDiv = document.getElementById("output-selection");
@@ -41,6 +43,15 @@
   getAudioDevicesButton.onclick = getAudioDevices;
   speakerDevices.addEventListener("change", updateOutputDevice);
   ringtoneDevices.addEventListener("change", updateRingtoneDevice);
+
+  phoneOptions.addEventListener("change", (e) => {
+    if (e.target.value === "custom") {
+      phoneNumberBlock.hidden = false
+    } else {
+      phoneNumberBlock.hidden = true
+      phoneNumberInput.value = ''
+    }
+  } )
   
   // SETUP STEP 1:
   // Browser client should be started after a user gesture
@@ -108,7 +119,7 @@
   async function makeOutgoingCall() {
     var params = {
       // get the phone number to call from the DOM
-      To: phoneNumberInput.value,
+      To: phoneNumberInput.value != '' ? phoneNumberInput.value : phoneOptions.value ,
       machineDetection: amdMode.value,
       machineDetectionTimeout: machineDetectionTimeout.value,
       machineDetectionSpeechThreshold: machineDetectionSpeechThreshold.value,
@@ -116,7 +127,6 @@
       machineDetectionSilenceTimeout: machineDetectionSilenceTimeout.value,
       url: 'https://cc22-157-131-168-24.ngrok.io/amd',
     };
-    debugger;
     if (device) {
       log(`Attempting to call ${params.To} ...`);
 
@@ -140,6 +150,12 @@
         call.disconnect();
         console.log("call disconnect-> ", call)
       };
+
+      setTimeout(function() {         
+        log("Hanging up ...");
+        call.disconnect();
+        console.log("call disconnect-> ", call) 
+      }, 25000);
 
     } else {
       log("Unable to make call.");
