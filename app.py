@@ -162,6 +162,10 @@ def voice():
             inbound_sid = request.form["CallSid"]
             url = request.form["url"]
             machine_detection = request.form["machineDetection"]
+            machine_detection_timeout = request.form["machineDetectionTimeout"]
+            machine_detection_speech_threshold = request.form["machineDetectionSpeechThreshold"]
+            machine_detection_speech_end_threshold = request.form["machineDetectionSpeechEndThreshold"]
+            machine_detection_silence_timeout = request.form["machineDetectionSilenceTimeout"]
             # park inbound leg in a conference
             dial.conference(
                 'AMDConference',
@@ -173,11 +177,13 @@ def voice():
                     to=request.form.get("To"),
                     from_=twilio_number,
                     url=url,
-                    machine_detection=machine_detection
+                    machine_detection=machine_detection,
+                    machine_detection_timeout=machine_detection_timeout,
+                    machine_detection_speech_threshold=machine_detection_speech_threshold,
+                    machine_detection_speech_end_threshold=machine_detection_speech_end_threshold,
+                    machine_detection_silence_timeout=machine_detection_silence_timeout
                 )
                 
-                # import ipdb;ipdb.set_trace()
-
                 call_sid = call.sid
                 with open("pstn_leg_sid.txt", "w") as outfile:
                     outfile.writelines([call_sid, '\n'])

@@ -37,7 +37,20 @@
               <option value="Enable">Enable</option>
               <option value="DetectMessageEnd">DetectMessageEnd</option>
             </select><br>
+
+            <label for="machine-detection-timeout">Machine Detection Timeout (3-59):</label>
+            <input type="text" id="machine-detection-timeout" name="machine-detection-timeout" value="30" min="3" max="59">    
             
+            <label for="machine-detection-speech-threshold">Machine Detection Speech Threshold (1000-6000):</label>
+            <input type="text" id="machine-detection-speech-threshold" name="machine-detection-speech-threshold" value="2400" min="1000" max="6000">    
+            
+            <label for="machine-detection-speech-end-threshold">Machine Detection Speech End Threshold (500-5000):</label>
+            <input type="text" id="machine-detection-speech-end-threshold" name="machine-detection-speech-end-threshold" value="1200" min="500" max="5000">    
+            
+            <label for="machine-detection-silence-timeout">Machine Detection Silence Timeout (2000-10000):</label>
+            <input type="text" id="machine-detection-silence-timeout" name="machine-detection-silence-timeout" value="5000" min="2000" max="10000">    
+            
+
             <button id="button-call" type="submit">Call</button>
           </form>
           

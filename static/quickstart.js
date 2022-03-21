@@ -22,6 +22,10 @@
   );
   const phoneNumberInput = document.getElementById("phone-number");
   const amdMode = document.getElementById("amd-mode");
+  const machineDetectionTimeout = document.getElementById("machine-detection-timeout");
+  const machineDetectionSpeechThreshold = document.getElementById("machine-detection-speech-threshold");
+  const machineDetectionSpeechEndThreshold = document.getElementById("machine-detection-speech-end-threshold");
+  const machineDetectionSilenceTimeout = document.getElementById("machine-detection-silence-timeout");
   const incomingPhoneNumberEl = document.getElementById("incoming-number");
   const startupButton = document.getElementById("startup-button");
 
@@ -106,9 +110,13 @@
       // get the phone number to call from the DOM
       To: phoneNumberInput.value,
       machineDetection: amdMode.value,
+      machineDetectionTimeout: machineDetectionTimeout.value,
+      machineDetectionSpeechThreshold: machineDetectionSpeechThreshold.value,
+      machineDetectionSpeechEndThreshold: machineDetectionSpeechEndThreshold.value,
+      machineDetectionSilenceTimeout: machineDetectionSilenceTimeout.value,
       url: 'https://cc22-157-131-168-24.ngrok.io/amd',
     };
-
+    debugger;
     if (device) {
       log(`Attempting to call ${params.To} ...`);
 
@@ -254,7 +262,6 @@
   }
 
   function setAMDResult(amd_params) {
-    debugger;
     answered_by = amd_params[0]
     machine_detection_duration = amd_params[1]
     console.log("in setAMDresult: ", answered_by)
