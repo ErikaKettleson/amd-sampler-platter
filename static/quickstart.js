@@ -125,7 +125,7 @@
       machineDetectionSpeechThreshold: machineDetectionSpeechThreshold.value,
       machineDetectionSpeechEndThreshold: machineDetectionSpeechEndThreshold.value,
       machineDetectionSilenceTimeout: machineDetectionSilenceTimeout.value,
-      url: 'https://cc22-157-131-168-24.ngrok.io/amd',
+      url: 'https://73c9-157-131-168-24.ngrok.io/amd',
     };
     if (device) {
       log(`Attempting to call ${params.To} ...`);

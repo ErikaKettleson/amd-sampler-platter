@@ -1,12 +1,12 @@
 <!DOCTYPE html>
 <html>
   <head>
-    <title>Twilio Voice JavaScript SDK Quickstart</title>
+    <title>AMD Tester: Twilio Voice JavaScript SDK Quickstart</title>
     <link rel="stylesheet" href="static/site.css" />
   </head>
   <body>
     <header>
-      <h1>Twilio Voice JavaScript SDK Quickstart</h1>
+      <h1>AMD Tester: Twilio Voice JavaScript SDK Quickstart</h1>
       <button id="startup-button">Start up the Device</button>
     </header>
     <main id="controls">
@@ -26,10 +26,12 @@
         <h2 class="instructions">Make a Call</h2>
         <div id="call-controls" class="hide">
           <form>
-
+            <label>Phone number:</label>
+            <p>Prebuilt options to test with or you own number</p>
             <select name="phone-options" id="phone-options">
               <option value="+19706606336">Very short voicemail</option>
               <option value="+18543006534">Normal voicemail</option>
+              <option value="+17373774663">Very long voicemail</option>  
               <option value="+16502036694">Human saying hello</option>
               <option value="custom">Call your own number</option>
             </select><br>
@@ -41,22 +43,27 @@
               <input id="phone-number" type="text" placeholder="+15552221234" />
             </div>
             <label for="amd">AMD Mode:</label>
-
+            <p>Enable returns AnsweredBy asap - best for detecting humans. DetectMessageEnd returns for human or after the beep - best for leaving VMs</p>
             <select name="amd" id="amd-mode">
+              <p>this is small</p>
               <option value="Enable">Enable</option>
               <option value="DetectMessageEnd">DetectMessageEnd</option>
             </select><br>
 
-            <label for="machine-detection-timeout">Machine Detection Timeout (3-59):</label>
+            <label for="machine-detection-timeout">Machine Detection Timeout (3-59s):</label>
+            <p>Deliberation time. How long before timing out and returning unknown? Higher is better for long VMs. </p>
             <input type="text" id="machine-detection-timeout" name="machine-detection-timeout" value="30" min="3" max="59">    
             
-            <label for="machine-detection-speech-threshold">Machine Detection Speech Threshold (1000-6000):</label>
+            <label for="machine-detection-speech-threshold">Machine Detection Speech Threshold (1000-6000ms):</label>
+            <p>Measures initial greeting length. Under this value return as human, longer as VM. Higher threshold will pick up more humans. </p>
             <input type="text" id="machine-detection-speech-threshold" name="machine-detection-speech-threshold" value="2400" min="1000" max="6000">    
             
-            <label for="machine-detection-speech-end-threshold">Machine Detection Speech End Threshold (500-5000):</label>
+            <label for="machine-detection-speech-end-threshold">Machine Detection Speech End Threshold (500-5000ms):</label>
+            <p>Measures silence after the initial speech. Decrease for faster human detection. </p>
             <input type="text" id="machine-detection-speech-end-threshold" name="machine-detection-speech-end-threshold" value="1200" min="500" max="5000">    
             
-            <label for="machine-detection-silence-timeout">Machine Detection Silence Timeout (2000-10000):</label>
+            <label for="machine-detection-silence-timeout">Machine Detection Silence Timeout (2000-10000ms):</label>
+            <p>How much initial silence before returning unknown?</p>
             <input type="text" id="machine-detection-silence-timeout" name="machine-detection-silence-timeout" value="5000" min="2000" max="10000">    
             
 

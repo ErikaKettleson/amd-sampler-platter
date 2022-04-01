@@ -10,17 +10,20 @@
 
 ## About
 
-This application should give you a ready-made starting point for writing your own voice apps with the Twilio Voice JavaScript SDK (formerly known as Twilio Client).
+This application should give you a ready-made starting point for testing out AMD using the Twilio Voice JavaScript SDK. Set up is the same as the Quickstart. 
 
 This application uses the lightweight [Flask Framework](http://flask.pocoo.org/). Once you set up the application, you will be able to make and receive calls from your browser. You will also be able to switch between audio input/output devices, and see dynamic volume levels on the call.
 
-![screenshot of application homepage](./screenshots/Homepage.png)
+![screenshot of application homepage](./screenshots/AMDHuman.png)
 
-Implementations in other languages:
 
-| .NET | Java | Node | PHP | Ruby |
-| :--- | :--- | :----- | :-- | :--- |
-| [Done](https://github.com/TwilioDevEd/voice-javascript-sdk-quickstart-csharp) | [Done](https://github.com/TwilioDevEd/voice-javascript-sdk-quickstart-java)  | [Done](https://github.com/TwilioDevEd/voice-javascript-sdk-quickstart-node)  | [Done](https://github.com/TwilioDevEd/voice-javascript-sdk-quickstart-php) | [Done](https://github.com/TwilioDevEd/voice-javascript-sdk-quickstart-ruby)  |
+## AMD Testing
+
+Adjust all the tuning parameters for AMD and test out different settings. Select from pre-made voicemails that live in TwiML bins or call a number of you choosing. 
+
+Once you place a call, you will be placed in a conference. If AMD detects a human, you will be bridged with that call leg. You can hang up after your Machine Detection Threshold is reached and you will see the detection time and result of AMD. 
+
+![screenshot of application homepage](./screenshots/AMDVM.png)
 
 ## Set Up
 
